@@ -2,6 +2,7 @@
 
 # config.toml
 
+```toml
 	[Repo]
 	repo_url=""
 
@@ -14,3 +15,4 @@
 	[Config]
 	commit_quantity_check=40
 	fake_run=false
+```
