@@ -1,6 +1,6 @@
-#Tweet Commits Bot
+# Tweet Commits Bot
 
-# config.toml
+## config.toml
 
 ```toml
 	[Repo]
