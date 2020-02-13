@@ -1,10 +1,12 @@
-# Tweet Commits Bot
+# GodotCommits-Twitter-Bot
 
-## config.toml
+A bot made in python 3 to tweet commits from the github repository. It can be used with any other github repository
+
+## Config Files
 
 ```toml
 	[Repo]
-	repo_url=""
+	repo_url="https://github.com/godotengine/godot"
 
 	[Twitter]
 	consumer_key=""

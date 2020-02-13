@@ -14,7 +14,8 @@ import toml
 # -------------------------------------------------- #
 
 def clone_repo(config_dico):
-	return Repo.clone_from(config_dico["Repo"]["repo_url"], "repo")
+	print("Cloning from " + config_dico["Repo"]["repo_url"] + " ...")
+	return Repo.clone_from(timestamp_str() + config_dico["Repo"]["repo_url"], "repo")
 
 def remove_repo():
 	shutil.rmtree('repo')
@@ -22,9 +23,13 @@ def remove_repo():
 def repo_openning(config_dico):
 	if path.exists("repo"):
 		repo = Repo("repo")
-		if repo.remotes.origin.url == config_dico["Repo"]["repo_url"]:
-			o = repo.remotes.origin
-			o.pull()
+		if hasattr(repo.remotes, "origin"):
+			if repo.remotes.origin.url == config_dico["Repo"]["repo_url"]:
+				print(timestamp_str() + "Pull master head from origin " + config_dico["Repo"]["repo_url"] + " ...")
+				repo.remotes.origin.pull()
+			else:
+				remove_repo()
+				repo = clone_repo(config_dico)
 		else:
 			remove_repo()
 			repo = clone_repo(config_dico)
@@ -49,6 +54,9 @@ def load_twitter_api(config_dico):
 # -------------------------------------------------- #
 # -------------------------------------------------- #
 # -------------------------------------------------- #
+
+print("######################################################################")
+print(timestamp_str() + "Script starting ...")
 
 # Load TOML files to dico
 config = toml.load("config.toml")
@@ -84,7 +92,7 @@ if commits_list[0].hexsha != save["Commit"]["last_commit"]:
 
 	for commits in commits_untweeted:
 		if config["Config"]["fake_run"] == False:
-			api.PostUpdate(format_commit_message(commits.message) + repo.remotes.origin.url + "commit/" + commits.hexsha)
+			api.PostUpdate(format_commit_message(commits.message) + repo.remotes.origin.url + "/commit/" + commits.hexsha)
 		
 		## Log
 		print("------------------------------------")
@@ -92,4 +100,6 @@ if commits_list[0].hexsha != save["Commit"]["last_commit"]:
 		print("URL : " + repo.remotes.origin.url + "/commit/" + commits.hexsha)
 		##
 else:
-	print(timestamp_str() + "No new commit")
+	print(timestamp_str() + "No new commit to tweet")
+
+print(timestamp_str() + "Script Finished.")
