@@ -1,4 +1,9 @@
+<img src="https://github.com/Coldragon/GodotCommits-Twitter-Bot/blob/master/godot_commits.png" width="64">
+
 # GodotCommits-Twitter-Bot
+
+
+
 
 A bot made in python 3 to tweet commits from the github repository. It can be used with any other github repository
 
